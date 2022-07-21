@@ -30,7 +30,7 @@ const colorOptions = document.querySelectorAll('#color option')
 console.log(colorOptions)
 
 /*when Design is chosen, Color becomes available and narrows down to 
-what is available per design*/
+color options per design*/
 
 design.addEventListener('change', e => {
     color.removeAttribute('disabled');
@@ -46,4 +46,25 @@ design.addEventListener('change', e => {
     }
 });
 
+const actsCheckbox = document.querySelector('.activities');
+
+const actsCost = document.querySelector('#activities-cost');
+// const totalCost = actsCost.textContent;
+let totalCost = 0;
+// actsCost.innerHTML = `Total: $${total$}`;
+
+
+actsCheckbox.addEventListener('change', e => {
+    const clickedAct = e.target;
+    const clickedCost = +clickedAct.getAttribute('data-cost');
+    if (clickedAct.checked) {
+        totalCost = totalCost + clickedCost;
+        console.log(totalCost);
+        actsCost.innerHTML = `Total: $${totalCost}`;
+    } else {
+        totalCost= totalCost - clickedCost;
+        console.log(totalCost);
+        actsCost.innerHTML = `Total: $${totalCost}`;
+    }
+});
 
