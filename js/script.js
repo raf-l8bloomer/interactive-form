@@ -46,12 +46,11 @@ design.addEventListener('change', e => {
     }
 });
 
-const actsCheckbox = document.querySelector('.activities');
+/*Pulls cost of each activity and adds/subtracts them when checked to a total amount*/
 
+const actsCheckbox = document.querySelector('.activities');
 const actsCost = document.querySelector('#activities-cost');
-// const totalCost = actsCost.textContent;
 let totalCost = 0;
-// actsCost.innerHTML = `Total: $${total$}`;
 
 
 actsCheckbox.addEventListener('change', e => {
@@ -66,5 +65,36 @@ actsCheckbox.addEventListener('change', e => {
         console.log(totalCost);
         actsCost.innerHTML = `Total: $${totalCost}`;
     }
+});
+
+const payment = document.getElementById('payment');
+const creditcard = document.getElementById('credit-card');
+const paypal = document.getElementById('paypal');
+const bitcoin = document.getElementById('bitcoin');
+
+/*default payment info set at Credit Card while hiding other options*/
+
+payment[1].defaultSelected = 'true';
+paypal.hidden = 'hidden';
+bitcoin.hidden = 'hidden';
+
+
+/*Payment info and details change depending on payment method*/
+
+payment.addEventListener('change', e=> {
+    const clickedPayment = e.target.value;
+        if (clickedPayment === "credit-card"){
+            creditcard.removeAttribute('hidden')
+            paypal.hidden = 'hidden';
+            bitcoin.hidden = 'hidden';
+        } else if (clickedPayment === "paypal"){
+            paypal.removeAttribute('hidden')
+            creditcard.hidden = 'hidden';
+            bitcoin.hidden = 'hidden';
+        } else if(clickedPayment === "bitcoin"){
+            bitcoin.removeAttribute('hidden')
+            creditcard.hidden = 'hidden';
+            paypal.hidden = 'hidden';
+        }
 });
 
