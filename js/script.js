@@ -1,7 +1,6 @@
-/*default focus state in first text field upon page load*/
-
 const inputName = document.getElementById('name');
-inputName.focus();
+inputName.focus(); //default focus state in first text field upon page load
+
 
 /*hide other Job Role text field  on default*/
 const otherJobRole = document.getElementById('other-job-role');
@@ -46,7 +45,6 @@ design.addEventListener('change', e => {
 });
 
 /*Pulls cost of each activity and adds/subtracts them when checked to a total amount*/
-
 const actsCheckbox = document.querySelector('.activities');
 const actsCost = document.querySelector('#activities-cost');
 let totalCost = 0;
@@ -72,14 +70,12 @@ const paypal = document.getElementById('paypal');
 const bitcoin = document.getElementById('bitcoin');
 
 /*default payment info set at Credit Card while hiding other options*/
-
 payment[1].defaultSelected = 'true';
 paypal.hidden = 'hidden';
 bitcoin.hidden = 'hidden';
 
 
 /*Payment info and details change depending on payment method*/
-
 payment.addEventListener('change', e=> {
     const clickedPayment = e.target.value;
         if (clickedPayment === "credit-card"){
@@ -97,8 +93,7 @@ payment.addEventListener('change', e=> {
         }
 });
 
-/* helper functions and form validation*/
-
+/* helper functions for form validation*/
 const email = document.getElementById('email');
 const ccNum = document.getElementById('cc-num');
 const zip = document.getElementById('zip');
@@ -147,6 +142,20 @@ const cvvValidator = () => {
     return cvvIsValid;
 }
 
+/* functions for  validators - if invalid, turn red and provide hint | if valid turn green*/
+
+function invalid (elementParent) {
+    elementParent.classList.add('not-valid');
+    elementParent.classList.remove('valid');
+    elementParent.lastElementChild.style.display = 'initial';
+}
+
+function valid (elementParent) {
+    elementParent.classList.add('valid');
+    elementParent.classList.remove('not-valid');
+    elementParent.lastElementChild.style.display = 'hidden';
+}
+
 const nameParent = inputName.parentElement;
 const emailParent = email.parentElement;
 const ccParent = ccNum.parentElement;
@@ -154,7 +163,7 @@ const zipParent = zip.parentElement;
 const cvvParent = cvv.parentElement;
 
 
-
+/* form runs validators and will notify if an input is invalid/valid when submitted*/
 form.addEventListener('submit', e => {
     nameValidator();
     emailValidator();
@@ -163,73 +172,49 @@ form.addEventListener('submit', e => {
     zipValidator();
     cvvValidator();
 
+
     if(!nameValidator()){
         e.preventDefault();
-        nameParent.classList.add('not-valid');
-        nameParent.classList.remove('valid');
-        nameParent.lastElementChild.style.display = 'initial';
-        console.log('validator needs name');
+        invalid(nameParent);
     } else {
-        nameParent.classList.add('valid');
-        nameParent.classList.remove('not-valid');
-        nameParent.lastElementChild.style.display = 'hidden';
-
+        valid(nameParent);
     };
     if(!emailValidator()){
         e.preventDefault();
-        emailParent.classList.add('not-valid');
-        emailParent.classList.remove('valid');
-        emailParent.lastElementChild.style.display = 'initial';
+        invalid(emailParent)
     } else {
-        emailParent.classList.add('valid');
-        emailParent.classList.remove('not-valid');
-        emailParent.lastElementChild.style.display = 'hidden';
+        valid(emailParent);
     };
     if(!actsValidator()){
         e.preventDefault();
-        actsCheckbox.classList.add('not-valid');
-        actsCheckbox.classList.remove('valid');
-        actsCheckbox.lastElementChild.style.display = 'initial';
+        invalid(actsCheckbox);
     } else {
-        actsCheckbox.classList.add('valid');
-        actsCheckbox.classList.remove('not-valid');
-        actsCheckbox.lastElementChild.style.display = 'hidden';
+        valid(actsCheckbox);
     };
     if(!ccValidator()){
         e.preventDefault();
-        ccParent.classList.add('not-valid');
-        ccParent.classList.remove('valid');
-        ccParent.lastElementChild.style.display = 'initial';
+        invalid(ccParent);
     } else {
-        ccParent.classList.add('valid');
-        ccParent.classList.remove('not-valid');
-        ccParent.lastElementChild.style.display = 'hidden';
+        valid(ccParent);
     };
     if(!zipValidator()){
         e.preventDefault();
-        zipParent.classList.add('not-valid');
-        zipParent.classList.remove('valid');
-        zipParent.lastElementChild.style.display = 'initial';
+        invalid(zipParent);
     } else {
-        zipParent.classList.add('valid');
-        zipParent.classList.remove('not-valid');
-        zipParent.lastElementChild.style.display = 'hidden';
+        valid(zipParent);
     };
     if(!cvvValidator()){
         e.preventDefault();
-        cvvParent.classList.add('not-valid');
-        cvvParent.classList.remove('valid');
-        cvvParent.lastElementChild.style.display = 'initial';
+        invalid(cvvParent);
     } else {
-        cvvParent.classList.add('valid');
-        cvvParent.classList.remove('not-valid');
-        cvvParent.lastElementChild.style.display = 'hidden';
+        valid(cvvParent);
     };
 
 });
 
+/* highlights options when tabbed/selected through for accessibility*/
 const actsCheckboxInput = document.querySelectorAll('#activities input');
-console.log (actsCheckboxInput);
+
 
 for (let i = 0; i < actsCheckboxInput.length; i++){
     actsCheckboxInput[i].addEventListener('focus', function(){
@@ -243,3 +228,22 @@ for (let i = 0; i < actsCheckboxInput.length; i++){
         
     })
 }
+
+/*Real-time error messaging as input occurs*/ 
+inputName.addEventListener('keyup',function(){
+    nameValidator();
+    if(!nameValidator()){
+        invalid(nameParent);
+    } else {
+        valid(nameParent);
+    };
+})
+
+email.addEventListener('keyup',function(){
+    emailValidator();
+    if(!emailValidator()){
+        invalid(emailParent);
+    } else {
+        valid(emailParent);
+    };
+});
