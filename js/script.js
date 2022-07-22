@@ -98,3 +98,18 @@ payment.addEventListener('change', e=> {
         }
 });
 
+const form = document.querySelector('form');
+console.log(form);
+
+form.addEventListener('submit', e => {
+
+
+})
+
+const nameValidator = () => {
+    const nameValue = inputName.value;
+    const nameIsValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(nameValue);
+    console.log(`"${nameIsValid}"`);
+}
+
+const 
