@@ -27,7 +27,6 @@ color.disabled = 'true';
 
 const design = document.getElementById('design');
 const colorOptions = document.querySelectorAll('#color option')
-console.log(colorOptions)
 
 /*when Design is chosen, Color becomes available and narrows down to 
 color options per design*/
@@ -98,18 +97,119 @@ payment.addEventListener('change', e=> {
         }
 });
 
+/* helper functions and form validation*/
+
+const email = document.getElementById('email');
+const ccNum = document.getElementById('cc-num');
+const zip = document.getElementById('zip');
+const cvv = document.getElementById('cvv');
 const form = document.querySelector('form');
-console.log(form);
 
-form.addEventListener('submit', e => {
-
-
-})
 
 const nameValidator = () => {
     const nameValue = inputName.value;
     const nameIsValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(nameValue);
-    console.log(`"${nameIsValid}"`);
+    console.log(`Name validation on "${nameValue}" is "${nameIsValid}"`);
+    return nameIsValid;
 }
 
-const 
+const emailValidator = () => {
+    const emailValue = email.value;
+    const emailIsValid =/^[^@]+@[^@.]+\.[a-z]+$/i.test(emailValue);
+    console.log(`Email validation on "${emailValue}" evaluates to "${emailIsValid}"`)
+    return emailIsValid;
+}
+
+const actsValidator = () => {
+    const actsIsValid = totalCost > 0;
+    console.log(`Activities validation evalutes to "${actsIsValid}`)
+    return actsIsValid;
+}
+
+const ccValidator = () => {
+    const ccNumValue = ccNum.value;
+    const ccIsValid = /^\d{13,16}$/.test(ccNumValue);
+    console.log(`${ccNumValue} is ${ccIsValid}`);
+    return ccIsValid;
+}
+
+const zipValidator = () => {
+    const zipValue = zip.value;
+    const zipIsValid = /^\d{5}$/.test(zipValue);
+    console.log(`${zipValue} is ${zipIsValid}`);
+    return zipIsValid;
+};
+
+const cvvValidator = () => {
+    const cvvValue = cvv.value;
+    const cvvIsValid = /^\d{3}$/.test(cvvValue);
+    console.log(`${cvvValue} is ${cvvIsValid}`);
+    return cvvIsValid;
+}
+
+const nameParent = inputName.parentElement;
+const emailParent = email.parentElement;
+
+
+form.addEventListener('submit', e => {
+    nameValidator();
+    emailValidator();
+    actsValidator();
+    ccValidator();
+    zipValidator();
+    cvvValidator();
+
+    if(!nameValidator()){
+        e.preventDefault();
+        nameParent.classList.add('not-valid');
+        nameParent.classList.remove('valid');
+        nameParent.lastElementChild.style.display = 'initial';
+        console.log('validator needs name');
+    } else {
+        nameParent.classList.add('valid');
+        nameParent.classList.remove('not-valid');
+        nameParent.lastElementChild.style.display = 'hidden';
+
+    };
+    if(!emailValidator()){
+        e.preventDefault();
+        emailParent.classList.add('not-valid');
+        emailParent.classList.remove('valid');
+        emailParent.lastElementChild.style.display = 'initial';
+    } else {
+        emailParent.classList.add('valid');
+        emailParent.classList.remove('not-valid');
+        emailParent.lastElementChild.style.display = 'hidden';
+    };
+    if(!actsValidator()){
+        e.preventDefault();
+        console.log('validator needs act');
+    };
+    if(!ccValidator()){
+        e.preventDefault();
+        console.log('validator needs cc');
+    };
+    if(!zipValidator()){
+        e.preventDefault();
+        console.log('validator needs zip');
+    };
+    if(!cvvValidator()){
+        e.preventDefault();
+        console.log('validator needs cvv');
+    };
+
+});
+
+const actsCheckboxInput = document.querySelectorAll('#activities input');
+console.log (actsCheckboxInput);
+
+for (let i = 0; i < actsCheckboxInput.length; i++){
+    actsCheckboxInput[i].addEventListener('focus', function(){
+        actsCheckboxInput.classList('focus');
+
+    })
+    actsCheckboxInput[i].addEventListener('blur', function(){
+        actsCheckboxInput.classList.remove('focus');
+        
+    })
+}
