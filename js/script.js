@@ -1,10 +1,37 @@
 const inputName = document.getElementById('name');
-inputName.focus(); //default focus state in first text field upon page load
-
-
-/*hide other Job Role text field  on default*/
 const otherJobRole = document.getElementById('other-job-role');
-otherJobRole.style.display = 'none'
+
+/*TSHIRT*/
+const design = document.getElementById('design');
+const colorOptions = document.querySelectorAll('#color option')
+
+/*ACTIVITIES*/
+const actsCheckbox = document.querySelector('.activities');
+const actsCost = document.querySelector('#activities-cost');
+let totalCost = 0;
+const actsCheckboxInput = document.querySelectorAll('#activities input');//for looping
+
+/*PAYMENT*/
+const payment = document.getElementById('payment');
+const creditcard = document.getElementById('credit-card');
+const paypal = document.getElementById('paypal');
+const bitcoin = document.getElementById('bitcoin');
+
+/*FOR VALIDATION*/
+const email = document.getElementById('email');
+const ccNum = document.getElementById('cc-num');
+const zip = document.getElementById('zip');
+const cvv = document.getElementById('cvv');
+const form = document.querySelector('form');
+const nameParent = inputName.parentElement;
+const emailParent = email.parentElement;
+const ccParent = ccNum.parentElement;
+const zipParent = zip.parentElement;
+const cvvParent = cvv.parentElement;
+
+
+inputName.focus(); //default focus state in first text field upon page load
+otherJobRole.style.display = 'none' //hide other Job Role text field  on default
 
 
 /*show Other Job Role text field only if 'Other' is selected,
@@ -22,10 +49,6 @@ title.addEventListener ('change', e => {
 /* disable Color options before Design is selected*/
 const color = document.getElementById('color');
 color.disabled = 'true';
-
-
-const design = document.getElementById('design');
-const colorOptions = document.querySelectorAll('#color option')
 
 /*when Design is chosen, Color becomes available and narrows down to 
 color options per design*/
@@ -45,29 +68,28 @@ design.addEventListener('change', e => {
 });
 
 /*Pulls cost of each activity and adds/subtracts them when checked to a total amount*/
-const actsCheckbox = document.querySelector('.activities');
-const actsCost = document.querySelector('#activities-cost');
-let totalCost = 0;
-
 
 actsCheckbox.addEventListener('change', e => {
     const clickedAct = e.target;
     const clickedCost = +clickedAct.getAttribute('data-cost');
     if (clickedAct.checked) {
         totalCost = totalCost + clickedCost;
-        console.log(totalCost);
         actsCost.innerHTML = `Total: $${totalCost}`;
     } else {
         totalCost= totalCost - clickedCost;
-        console.log(totalCost);
         actsCost.innerHTML = `Total: $${totalCost}`;
     }
 });
 
-const payment = document.getElementById('payment');
-const creditcard = document.getElementById('credit-card');
-const paypal = document.getElementById('paypal');
-const bitcoin = document.getElementById('bitcoin');
+/* ACCESSIBILITY: highlights options when tabbed/selected through*/
+for (let i = 0; i < actsCheckboxInput.length; i++){
+    actsCheckboxInput[i].addEventListener('focus', function(){
+        actsCheckboxInput[i].parentElement.classList.add('focus');
+    })
+    actsCheckboxInput[i].addEventListener('blur', function(){
+        actsCheckboxInput[i].parentElement.classList.remove('focus');
+    })
+}
 
 /*default payment info set at Credit Card while hiding other options*/
 payment[1].defaultSelected = 'true';
@@ -94,12 +116,6 @@ payment.addEventListener('change', e=> {
 });
 
 /* helper functions for form validation*/
-const email = document.getElementById('email');
-const ccNum = document.getElementById('cc-num');
-const zip = document.getElementById('zip');
-const cvv = document.getElementById('cvv');
-const form = document.querySelector('form');
-
 
 const nameValidator = () => {
     const nameValue = inputName.value;
@@ -147,14 +163,8 @@ function invalid (elementParent) {
 function valid (elementParent) {
     elementParent.classList.add('valid');
     elementParent.classList.remove('not-valid');
-    elementParent.lastElementChild.style.display = 'hidden';
+    elementParent.lastElementChild.style.display = 'none';
 }
-
-const nameParent = inputName.parentElement;
-const emailParent = email.parentElement;
-const ccParent = ccNum.parentElement;
-const zipParent = zip.parentElement;
-const cvvParent = cvv.parentElement;
 
 
 /* form runs validators and will notify if an input is invalid/valid when submitted*/
@@ -202,36 +212,8 @@ form.addEventListener('submit', e => {
     } else {
         valid(cvvParent);
     };
+
+
 });
 
-/* highlights options when tabbed/selected through for accessibility*/
-const actsCheckboxInput = document.querySelectorAll('#activities input');
 
-
-for (let i = 0; i < actsCheckboxInput.length; i++){
-    actsCheckboxInput[i].addEventListener('focus', function(){
-        actsCheckboxInput[i].parentElement.classList.add('focus');
-    })
-    actsCheckboxInput[i].addEventListener('blur', function(){
-        actsCheckboxInput[i].parentElement.classList.remove('focus');
-    })
-}
-
-/*Real-time error messaging as input occurs*/ 
-inputName.addEventListener('keyup',function(){
-    nameValidator();
-    if(!nameValidator()){
-        invalid(nameParent);
-    } else {
-        valid(nameParent);
-    };
-})
-
-email.addEventListener('keyup',function(){
-    emailValidator();
-    if(!emailValidator()){
-        invalid(emailParent);
-    } else {
-        valid(emailParent);
-    };
-});
