@@ -104,41 +104,35 @@ const form = document.querySelector('form');
 const nameValidator = () => {
     const nameValue = inputName.value;
     const nameIsValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(nameValue);
-    console.log(`Name validation on "${nameValue}" is "${nameIsValid}"`);
     return nameIsValid;
 }
 
 const emailValidator = () => {
     const emailValue = email.value;
     const emailIsValid =/^[^@]+@[^@.]+\.[a-z]+$/i.test(emailValue);
-    console.log(`Email validation on "${emailValue}" evaluates to "${emailIsValid}"`)
     return emailIsValid;
 }
 
 const actsValidator = () => {
     const actsIsValid = totalCost > 0;
-    console.log(`Activities validation evalutes to "${actsIsValid}`)
     return actsIsValid;
 }
 
 const ccValidator = () => {
     const ccNumValue = ccNum.value;
     const ccIsValid = /^\d{13,16}$/.test(ccNumValue);
-    console.log(`${ccNumValue} is ${ccIsValid}`);
     return ccIsValid;
 }
 
 const zipValidator = () => {
     const zipValue = zip.value;
     const zipIsValid = /^\d{5}$/.test(zipValue);
-    console.log(`${zipValue} is ${zipIsValid}`);
     return zipIsValid;
 };
 
 const cvvValidator = () => {
     const cvvValue = cvv.value;
     const cvvIsValid = /^\d{3}$/.test(cvvValue);
-    console.log(`${cvvValue} is ${cvvIsValid}`);
     return cvvIsValid;
 }
 
@@ -171,7 +165,6 @@ form.addEventListener('submit', e => {
     ccValidator();
     zipValidator();
     cvvValidator();
-
 
     if(!nameValidator()){
         e.preventDefault();
@@ -209,7 +202,6 @@ form.addEventListener('submit', e => {
     } else {
         valid(cvvParent);
     };
-
 });
 
 /* highlights options when tabbed/selected through for accessibility*/
@@ -219,13 +211,9 @@ const actsCheckboxInput = document.querySelectorAll('#activities input');
 for (let i = 0; i < actsCheckboxInput.length; i++){
     actsCheckboxInput[i].addEventListener('focus', function(){
         actsCheckboxInput[i].parentElement.classList.add('focus');
-        console.log('focus working?');
     })
     actsCheckboxInput[i].addEventListener('blur', function(){
         actsCheckboxInput[i].parentElement.classList.remove('focus');
-        console.log('blur working?');
-
-        
     })
 }
 
