@@ -149,6 +149,10 @@ const cvvValidator = () => {
 
 const nameParent = inputName.parentElement;
 const emailParent = email.parentElement;
+const ccParent = ccNum.parentElement;
+const zipParent = zip.parentElement;
+const cvvParent = cvv.parentElement;
+
 
 
 form.addEventListener('submit', e => {
@@ -183,19 +187,43 @@ form.addEventListener('submit', e => {
     };
     if(!actsValidator()){
         e.preventDefault();
-        console.log('validator needs act');
+        actsCheckbox.classList.add('not-valid');
+        actsCheckbox.classList.remove('valid');
+        actsCheckbox.lastElementChild.style.display = 'initial';
+    } else {
+        actsCheckbox.classList.add('valid');
+        actsCheckbox.classList.remove('not-valid');
+        actsCheckbox.lastElementChild.style.display = 'hidden';
     };
     if(!ccValidator()){
         e.preventDefault();
-        console.log('validator needs cc');
+        ccParent.classList.add('not-valid');
+        ccParent.classList.remove('valid');
+        ccParent.lastElementChild.style.display = 'initial';
+    } else {
+        ccParent.classList.add('valid');
+        ccParent.classList.remove('not-valid');
+        ccParent.lastElementChild.style.display = 'hidden';
     };
     if(!zipValidator()){
         e.preventDefault();
-        console.log('validator needs zip');
+        zipParent.classList.add('not-valid');
+        zipParent.classList.remove('valid');
+        zipParent.lastElementChild.style.display = 'initial';
+    } else {
+        zipParent.classList.add('valid');
+        zipParent.classList.remove('not-valid');
+        zipParent.lastElementChild.style.display = 'hidden';
     };
     if(!cvvValidator()){
         e.preventDefault();
-        console.log('validator needs cvv');
+        cvvParent.classList.add('not-valid');
+        cvvParent.classList.remove('valid');
+        cvvParent.lastElementChild.style.display = 'initial';
+    } else {
+        cvvParent.classList.add('valid');
+        cvvParent.classList.remove('not-valid');
+        cvvParent.lastElementChild.style.display = 'hidden';
     };
 
 });
@@ -205,11 +233,13 @@ console.log (actsCheckboxInput);
 
 for (let i = 0; i < actsCheckboxInput.length; i++){
     actsCheckboxInput[i].addEventListener('focus', function(){
-        actsCheckboxInput.classList('focus');
-
+        actsCheckboxInput[i].parentElement.classList.add('focus');
+        console.log('focus working?');
     })
     actsCheckboxInput[i].addEventListener('blur', function(){
-        actsCheckboxInput.classList.remove('focus');
+        actsCheckboxInput[i].parentElement.classList.remove('focus');
+        console.log('blur working?');
+
         
     })
 }
